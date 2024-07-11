@@ -1,0 +1,15 @@
+# Logs
+logs/
+*.log
+
+# Target directory
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
