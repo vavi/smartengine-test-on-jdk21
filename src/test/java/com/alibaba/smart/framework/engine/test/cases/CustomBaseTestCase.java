@@ -4,7 +4,10 @@ import com.alibaba.smart.framework.engine.SmartEngine;
 import com.alibaba.smart.framework.engine.configuration.ProcessEngineConfiguration;
 import com.alibaba.smart.framework.engine.configuration.impl.DefaultProcessEngineConfiguration;
 import com.alibaba.smart.framework.engine.configuration.impl.DefaultSmartEngine;
+import com.alibaba.smart.framework.engine.configuration.scanner.AnnotationScanner;
 import com.alibaba.smart.framework.engine.extension.scanner.SimpleAnnotationScanner;
+import com.alibaba.smart.framework.engine.overide.MvelExpressionEvaluatorOverride;
+import com.alibaba.smart.framework.engine.overide.SimpleAnnotationScannerOverride;
 import com.alibaba.smart.framework.engine.persister.custom.session.PersisterSession;
 import com.alibaba.smart.framework.engine.service.command.ExecutionCommandService;
 import com.alibaba.smart.framework.engine.service.command.ProcessCommandService;
@@ -13,8 +16,6 @@ import com.alibaba.smart.framework.engine.service.query.ExecutionQueryService;
 import com.alibaba.smart.framework.engine.service.query.ProcessQueryService;
 import com.alibaba.smart.framework.engine.service.query.RepositoryQueryService;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 
@@ -65,6 +66,10 @@ public class CustomBaseTestCase {
 
     protected void initProcessConfiguration() {
         processEngineConfiguration = new DefaultProcessEngineConfiguration();
+
+        processEngineConfiguration.setExpressionEvaluator(new MvelExpressionEvaluatorOverride());
+        AnnotationScanner annotationScanner = new SimpleAnnotationScannerOverride(SmartEngine.class.getPackage().getName());
+        processEngineConfiguration.setAnnotationScanner(annotationScanner);
     }
 
     @AfterAll
